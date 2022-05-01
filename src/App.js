@@ -1,41 +1,67 @@
 import './App.css';
 import React from 'react';
+//import { useState } from 'react';
 import ListOfInputs from './components/ListOfInputs';
 
 function App() {
   const styles = {
-    row : {
+    button: {
+      padding: '15px',
+      width: '100px',
+      background: 'green',
+      color: 'white',
+      borderRadius: '10px'
+    },
+    hr: {
+      height: '50vw'
+    },
+    justifyContentCenter: {
+      justifyContent: 'center',
+      width: '50%'
+    },
+    rowCenter: {
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'space-between',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '100px',
+      width: '50%'
+    },
+    rowMain : {
+      display: 'flex',
+      flexDirection: 'row',
       alignItems: 'start',
-      paddingRight: '50px',
-      paddingLeft: '50px'
     },
   }
 
   //let result = ''
-  const[result, setResult] = React.useState('')
+  let [result, setResult] = React.useState('')
 
   const letters = {
     a : '01100001',
     b : '01100010',
   }
 
-  const [valueOfInput, setValueOfInput] = React.useState([
-    {id: 1, title: undefined},
-    {id: 2, title: undefined},
-    {id: 3, title: undefined},
-    {id: 4, title: undefined},
-    {id: 5, title: undefined},
-    {id: 6, title: undefined},
-    {id: 7, title: undefined},
-    {id: 8, title: undefined},
+  let [valueOfInput, setValueOfInput] = React.useState([
+    {id: 1, title: ''},
+    {id: 2, title: ''},
+    {id: 3, title: ''},
+    {id: 4, title: ''},
+    {id: 5, title: ''},
+    {id: 6, title: ''},
+    {id: 7, title: ''},
+    {id: 8, title: ''},
   ])
 
   function toggleValueOfInput(e) {
-    //setValueOfInput(e)
-    //console.log('changed', title)  
+    setValueOfInput(
+      valueOfInput.map(v => {
+        if(v.id==e.id) {
+          v.title = e.title
+        }
+        return v
+      })
+    )
   }
 
   function sumValues() {
@@ -43,26 +69,26 @@ function App() {
     console.log('stringTitle', stringTitle)
     console.log('valueOfInput', valueOfInput)
     if(Object.values(letters).find(l=>l===stringTitle)) {
-      //let resVal = stringTitle
       setResult(Object.keys(letters).find(key=>letters[key]===stringTitle))
       console.log('found', Object.keys(letters).find(key=>letters[key]===stringTitle));
-    } else {
+    } 
+    else {
       setResult('Sorry miss, nothing was found:(')
     }
-
-    /* return resVal !=null ? setResult(Object.keys(letters).find(key=>letters[key]===resVal)) : setResult('nothing found') */
   }
 
   return (
     <div className="App">
-      <header className="App-header" style={styles.row}>
-        <div>
-          <p>Select zone</p>
-          <ListOfInputs values={valueOfInput} onToggle={toggleValueOfInput}/>
-          <button onClick={sumValues}>Sum</button>
+      <header className="App-header" style={styles.rowMain}>
+        <div style={styles.rowCenter}>
+          <div>
+            <p>Select zone</p>
+            <ListOfInputs values={valueOfInput} onToggle={toggleValueOfInput}/>
+          </div>
+          <button style={styles.button} onClick={sumValues}>Sum</button>
         </div>
-
-        <div>
+        <hr style={styles.hr}/>
+        <div style={styles.justifyContentCenter}>
           <p>Character</p>
           <h5>{result}</h5>
         </div>
