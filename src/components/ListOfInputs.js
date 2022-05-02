@@ -6,12 +6,12 @@ function ListOfInputs(props) {
         <div>
             {props.values.map((v, index) => {
                 return (
-                        <SingleInput 
-                            v={v}
-                            key={v.id}
-                            index={index}
-                            onChange={props.onToggle}
-                        />
+                    <SingleInput 
+                        v={v}
+                        key={v.id}
+                        index={index}
+                        onChange={props.onToggle}
+                    />
                 )
             })}
         </div>

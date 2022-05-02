@@ -1,16 +1,27 @@
 import './App.css';
 import React from 'react';
-//import { useState } from 'react';
 import ListOfInputs from './components/ListOfInputs';
 
 function App() {
   const styles = {
-    button: {
+    column: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '20px'
+    },
+    greenButton: {
       padding: '15px',
       width: '100px',
       background: 'green',
       color: 'white',
-      borderRadius: '10px'
+      borderRadius: '10px',
+    },
+    redButton: {
+      background: 'red',
+      padding: '15px',
+      width: '100px',
+      color: 'white',
+      borderRadius: '10px',
     },
     hr: {
       height: '50vw'
@@ -34,13 +45,12 @@ function App() {
     },
   }
 
-  //let result = ''
-  let [result, setResult] = React.useState('')
-
   const letters = {
     a : '01100001',
     b : '01100010',
   }
+  
+  let [result, setResult] = React.useState()
 
   let [valueOfInput, setValueOfInput] = React.useState([
     {id: 1, title: ''},
@@ -56,7 +66,7 @@ function App() {
   function toggleValueOfInput(e) {
     setValueOfInput(
       valueOfInput.map(v => {
-        if(v.id==e.id) {
+        if(v.id===e.id) {
           v.title = e.title
         }
         return v
@@ -73,8 +83,23 @@ function App() {
       console.log('found', Object.keys(letters).find(key=>letters[key]===stringTitle));
     } 
     else {
-      setResult('Sorry miss, nothing was found:(')
+      stringTitle === '' ? 
+      setResult('Fields are empty')
+      :
+      setResult(`Nothing was found by: ${stringTitle}`)
     }
+  }
+
+  function clearAllFunc() {
+    Array.from(document.querySelectorAll("input")).forEach(
+      input => (input.value = "")
+      );
+    setValueOfInput(
+      valueOfInput.map(v => {
+        v.title=''
+        return v
+      })
+    )
   }
 
   return (
@@ -85,7 +110,10 @@ function App() {
             <p>Select zone</p>
             <ListOfInputs values={valueOfInput} onToggle={toggleValueOfInput}/>
           </div>
-          <button style={styles.button} onClick={sumValues}>Sum</button>
+          <div style={styles.column}>
+            <button style={styles.greenButton} onClick={sumValues}>Sum</button>
+            <button style={styles.redButton} onClick={clearAllFunc}>Clear all</button>
+          </div>
         </div>
         <hr style={styles.hr}/>
         <div style={styles.justifyContentCenter}>
